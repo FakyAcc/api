@@ -1,0 +1,49 @@
+{
+  "name": "learnovate-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon server.js",
+    "build": "node server.js",
+    "prisma-init": "npx prisma init --datasource-provider postgresql",
+    "prisma-migrate": "npx prisma migrate dev --name init",
+    "prisma-dev": "npx prisma migrate dev",
+    "prisma-deploy": "npx prisma migrate deploy",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js --report-unused-disable-directives --max-warnings 0",
+    "test-watch": "jest --watchAll --verbose",
+    "test": "jest --verbose"
+  },
+  "keywords": [
+    "nodejs",
+    "prisma",
+    "postgres"
+  ],
+  "engines": {
+    "node": "20.9.0"
+  },
+  "author": "",
+  "license": "M",
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "prisma": "^5.4.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.4.2",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.0",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.7",
+    "pg": "^8.11.3",
+    "validator": "^13.11.0"
+  }
+}
