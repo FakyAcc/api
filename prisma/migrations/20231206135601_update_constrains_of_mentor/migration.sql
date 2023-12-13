@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Mentor" ALTER COLUMN "linkedIn" DROP NOT NULL,
+ALTER COLUMN "gitHub" DROP NOT NULL;

@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum userType {
+  admin
+  mentor
+  student
+}
+
+enum userGender {
+  male
+  female
+}
+
+enum studentLevel {
+  newbie
+  pupil
+  specialist
+  expert
+  master
+}
+
+enum courseLevel {
+  easy
+  intermediate
+  hard
+}
+
+model User {
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  password           String
+  role               userType
+  age                String?
+  gender             userGender?
+  country            String?
+  name               String
+  phone              String
+  image              Json?
+  mentors            Mentor[]
+  students           Student[]
+  bio                String?
+  verificationTokens VerificationToken?
+}
+
+model Mentor {
+  id           String    @id @default(uuid())
+  user         User      @relation(fields: [mentorID], references: [id])
+  mentorID     String    @unique
+  noStudents   Int
+  pricePerHour Int
+  rating       Int
+  linkedIn     String?
+  gitHub       String?
+  track        Track     @relation(fields: [trackID], references: [id])
+  trackID      String
+  sessions     Session[]
+}
+
+model Track {
+  id                 String    @id @default(uuid())
+  noStudentsEnrolled Int
+  trackName          String    @unique
+  mentors            Mentor[]
+  students           Student[]
+  courses            Course[]
+}
+
+model Student {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [studentID], references: [id])
+  studentID      String       @unique
+  levelOfStudent studentLevel
+  tracks         Track[]
+  sessions       Session[]
+}
+
+model Session {
+  id        String  @id @default(uuid())
+  mentor    Mentor  @relation(fields: [mentorID], references: [id])
+  mentorID  String
+  student   Student @relation(fields: [studentID], references: [id])
+  studentID String
+}
+
+model Question {
+  id       Int    @id @default(autoincrement())
+  question String @unique
+  answer   String @unique
+  onCourse Course @relation(fields: [courseID], references: [id])
+  courseID Int
+}
+
+model Course {
+  id         Int         @id @default(autoincrement())
+  courseName String      @unique
+  cLevel     courseLevel
+  cLink      String
+  track      Track       @relation(fields: [trackID], references: [id])
+  trackID    String
+  questions  Question[]
+}
+
+model VerificationToken {
+  id         String  @id @default(uuid())
+  token      String  @unique
+  isVerified Boolean @default(false)
+  user       User    @relation(fields: [userId], references: [id])
+  userId     String  @unique
+}
